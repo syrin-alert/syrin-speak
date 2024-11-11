@@ -1,0 +1,34 @@
+[Unit]
+Description=Syrin Speak Python Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/bin/python3 /usr/local/bin/syrin-speak.py
+Restart=on-failure
+Environment=RABBITMQ_HOST=127.0.0.1
+Environment=RABBITMQ_PORT=5672
+Environment=RABBITMQ_VHOST=<VHOST>
+Environment=RABBITMQ_USER=<USER>
+Environment=RABBITMQ_PASS=<PASS>
+Environment=RABBITMQ_TTL_DLX=60000
+Environment=MINIO_URL=127.0.0.1
+Environment=MINIO_PORT=9000
+Environment=MINIO_ROOT_USER=<USER>
+Environment=MINIO_ROOT_PASSWORD=<PASS>
+Environment=MINIO_BUCKET_WORK=syrin
+Environment="PATH=/home/<USER>/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="PULSE_RUNTIME_PATH=/run/user/1000/pulse/"
+Environment="XDG_RUNTIME_DIR=/run/user/1000"
+TimeoutSec=0
+LimitMEMLOCK=infinity
+LimitRTPRIO=infinity
+DeviceAllow=/dev/snd/ rw  # Acesso ao som
+CapabilityBoundingSet=CAP_SYS_ADMIN CAP_SYS_RAWIO
+ProtectSystem=off
+ProtectHome=no
+[Install]
+WantedBy=multi-user.target
